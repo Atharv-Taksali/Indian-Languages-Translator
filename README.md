@@ -1,10 +1,10 @@
 # Indian-Languages-Translator
 
 Requirements:
-pip install SpeechRecognition
-pip install googletrans==4.0.0-rc1
-pip install gTTS
-pip install pygame
+1) pip install SpeechRecognition
+2) pip install googletrans==4.0.0-rc1
+3) pip install gTTS
+4) pip install pygame
 
 Download:
 1) Click on the Green Code Button
