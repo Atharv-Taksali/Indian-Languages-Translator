@@ -1,3 +1,4 @@
+import os
 import tkinter as tk #GUI
 from tkinter import messagebox
 import speech_recognition as sr #Audio I/O
@@ -46,6 +47,7 @@ def speak_text_gtts(translated_text, lang='hi'):
     tts.save(temp_file_path)
     return temp_file_path
 
+
 #Play audio file
 def play_audio_file(file_path):
     pygame.mixer.init()
@@ -53,6 +55,8 @@ def play_audio_file(file_path):
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy():
         pass
+    # Stop and unload the mixer after playback
+    pygame.mixer.music.unload()
 
 #Translate audio input
 def translateAudio():
@@ -75,9 +79,15 @@ def start_listening(source_lang, target_lang):
         translated = translator.translate(source_text, src=source_lang, dest=target_lang).text
         status_label.config(text=f"Translated: {translated}")
         file_path = speak_text_gtts(translated, lang=target_lang)
-        play_audio_file(file_path)
+        try:
+            play_audio_file(file_path)
+        finally:
+            # Clean up temporary audio file
+            if os.path.exists(file_path):
+                os.remove(file_path)
     else:
         status_label.config(text="No input detected. Please try again.", fg="red")
+
 
 
 # Initialise Tkinter
